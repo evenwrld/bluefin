@@ -17,8 +17,7 @@ benchmark:
 
 # Configure Bluefin-CLI Terminal Experience with Brew
 bluefin-cli:
-    @brew bundle --file /usr/share/ublue-os/homebrew/bluefin-cli.Brewfile --no-lock
-    echo 'Installation complete ... please close and reopen your terminal!'
+    @/usr/libexec/ublue-bling.sh
 
 # Configure Bluefin-CLI Terminal Experience
 [private]
@@ -107,15 +106,6 @@ configure-shell ACTION="":
       sudo usermod $USER --shell /usr/bin/$OPTION 
       printf "${USER}'s shell is now %s.\n" "$(cat /etc/passwd | grep ":$UID:" | cut '-d:' '-f7')"
     fi
-
-alias gnome-extensions := get-gnome-extensions
-
-# Install recommended GNOME extensions
-get-gnome-extensions:
-    pip install --upgrade gnome-extensions-cli
-    gext install nightthemeswitcher@romainvigier.fr
-    gext install pano@elhan.io
-    gext install weatheroclock@CleoMenezesJr.github.io
 
 alias gnome-vrr := toggle-gnome-vrr
 
@@ -259,22 +249,6 @@ configure-vfio ACTION="":
       fi
     elif [[ "${OPTION,,}" =~ kvmfr ]]; then
       sudo /usr/libexec/bluefin-dx-kvmfr-setup
-    fi
-
-# Change automatic power profile switching behavior
-configure-auto-power-profile ACTION="help":
-    #!/usr/bin/bash
-    source /usr/lib/ujust/ujust.sh
-    OPTION={{ ACTION }}
-    if [ "$OPTION" == "help" ]; then
-      echo "Usage: ujust configure-auto-power-profile <option>"
-      echo "  Use 'enable' to allow automatic power profile switching based on power state
-      echo "  Use 'disable' to prevent automatic power profile switching based on power state
-      exit 0
-    elif [[ "${OPTION,,}" =~ enable ]]; then
-      gnome-extensions enable auto-power-profile@dmy3k.github.io
-    elif [[ "${OPTION,,}" =~ disable ]]; then
-      gnome-extensions disable auto-power-profile@dmy3k.github.io
     fi
 
 # Install system flatpaks for rebasers
